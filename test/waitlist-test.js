@@ -62,4 +62,12 @@ describe('WaitList', () => {
 
     assert.strictEqual(await entry.promise, 42);
   });
+
+  it('should return boolean from resolve()', async () => {
+    const w = new WaitList();
+    assert.ok(!w.resolve('event'));
+
+    w.waitFor('event');
+    assert.ok(w.resolve('event'));
+  });
 });
