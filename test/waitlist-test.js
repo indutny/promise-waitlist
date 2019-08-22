@@ -3,9 +3,17 @@ const assert = require('assert');
 const WaitList = require('../');
 
 describe('WaitList', () => {
-  it('should wait for single resolution of an id', async () => {
-    const w = new WaitList();
+  let w;
+  beforeEach(() => {
+    w = new WaitList();
+  });
 
+  afterEach(() => {
+    w.close();
+    w = null;
+  });
+
+  it('should wait for single resolution of an id', async () => {
     setTimeout(() => w.resolve('event', 42), 10);
 
     assert.strictEqual(await w.waitFor('event').promise, 42);
@@ -15,8 +23,6 @@ describe('WaitList', () => {
   });
 
   it('should wait for multiple resolutions of an id', async () => {
-    const w = new WaitList();
-
     setTimeout(() => w.resolve('event', 42), 10);
 
     assert.deepStrictEqual(await Promise.all([
@@ -29,8 +35,6 @@ describe('WaitList', () => {
   });
 
   it('should cancel the entry', async () => {
-    const w = new WaitList();
-
     const entry = w.waitFor('event');
     setTimeout(() => entry.cancel(), 10);
 
@@ -44,8 +48,6 @@ describe('WaitList', () => {
   });
 
   it('should timeout', async () => {
-    const w = new WaitList();
-
     const entry = w.waitFor('event', 10);
 
     await assert.rejects(entry.promise, {
@@ -64,10 +66,21 @@ describe('WaitList', () => {
   });
 
   it('should return boolean from resolve()', async () => {
-    const w = new WaitList();
     assert.ok(!w.resolve('event'));
 
     w.waitFor('event');
     assert.ok(w.resolve('event'));
+  });
+
+  it('should fire rejections on WaitList#close', async () => {
+    const entry = w.waitFor('event');
+
+    await Promise.all([
+      assert.rejects(entry.promise, {
+        name: 'Error',
+        message: 'Closed in test',
+      }),
+      w.close(new Error('Closed in test')),
+    ]);
   });
 });

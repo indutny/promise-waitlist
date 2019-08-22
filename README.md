@@ -13,7 +13,7 @@ const waitList = new WaitList();
 const entry = waitList.waitFor('event');
 
 setTimeout(() => {
-  waitList.resolve('event', value);
+  waitList.resolve('event', value); // returns `true` if promise was resolved
 }, 1000);
 
 console.log(await entry.promise);  // 42
@@ -32,6 +32,12 @@ waitList.waitFor('event', 5000);
 Or, if you wish to pass resolved entry:
 ```js
 const entry = WaitList.resolve(42);
+```
+
+In the end whole `WaitList` may be closed, effectively canceling all pending
+waits:
+```js
+waitList.close(/* optional error here*/);
 ```
 
 ## LICENSE
