@@ -28,7 +28,7 @@
   },
   "homepage": "https://github.com/indutny/promise-waitlist#readme",
   "devDependencies": {
-    "eslint": "^6.1.0",
+    "eslint": "^6.3.0",
     "mocha": "^6.2.0"
   }
 }
