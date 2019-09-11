@@ -40,7 +40,7 @@ describe('WaitList', () => {
 
     await assert.rejects(entry.promise, {
       name: 'Error',
-      message: 'Cancelled',
+      message: 'Cancelled: event',
     });
 
     // Should cleanup
@@ -82,5 +82,12 @@ describe('WaitList', () => {
       }),
       w.close(new Error('Closed in test')),
     ]);
+
+    assert.throws(() => {
+      w.waitFor('something');
+    }, {
+      name: 'Error',
+      message: 'WaitList already closed',
+    });
   });
 });
