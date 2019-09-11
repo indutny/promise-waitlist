@@ -1,6 +1,6 @@
 {
   "name": "promise-waitlist",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Promise-based Wait List",
   "main": "lib/waitlist.js",
   "directories": {
