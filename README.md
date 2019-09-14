@@ -16,7 +16,7 @@ setTimeout(() => {
   waitList.resolve('event', value); // returns `true` if promise was resolved
 }, 1000);
 
-console.log(await entry.promise);  // 42
+console.log(await entry);  // 42
 ```
 
 Entries can be cancelled as well:
