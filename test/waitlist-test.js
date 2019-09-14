@@ -52,7 +52,7 @@ describe('WaitList', () => {
 
     await assert.rejects(entry.promise, {
       name: 'Error',
-      message: 'Timed out',
+      message: 'Timed out: event',
     });
 
     // Should cleanup
